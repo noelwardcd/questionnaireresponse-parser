@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0 0 0 0;
+    font-size: 13px;
+    color: #3d3d3d;
+    -webkit-font-smoothing: antialiased;
+    background: #F3F3F3;
+}
+
+.cd {
+    background: #00a4ff;
+}
+
+.logos {
+    padding: 2.5em 0.5em 0.5em 0;
+    height: 3.4em;
+    background: white;
+}
+
+.questionnaire-response-logo img {
+    position: relative;
+    padding: 0.5em 0 0 0;
+    float: left;
+    width: auto;
+    height: 30px;
+    margin-left: 2.5%;
+    /* background: url(QuestionnaireReponseLogo.svg) no-repeat center left; */
+}
+.powered-by-caredove, .powered-by-caredove img {
+    margin: 0 auto;
+    padding: 1.5em 0 2em 0;
+    width: auto;
+    height: 30px;
+    /* background: url(PoweredByCaredove.svg) no-repeat center right; */
+}
+
+.container {
+    width: 100%;
+    text-align: center;
+    padding: 1em 0 1em 0;
+}
+
+.form {
+    color: #ffffff;
+}
+
+.row {
+    width: 100%;
+    padding: 0.25em 0 0.25em 0;
+}
+
+.container select {
+    width: auto;
+}
+
+button {
+    text-align: center;
+    border-radius: 4px;
+    width: 8em;
+    height: 2em;
+}
+
+.question {
+    font-weight: bold;
+}
+
+.answer {
+    font-weight: normal;
+}
+
+section {
+    width: 50%;
+    margin: 3em auto;
+    background: white;
+    padding: 0 0 6px 0;
+    outline: 1px solid #ccc;
+    margin-bottom: 3em;
+}
+
+section h1 {
+    color: #666666 !important;
+    border-color: #e6e6e6 !important;
+    background-color: #e6e6e6 !important;
+    outline: 1px solid #ccc;
+    padding: 6px 0 6px 6px;
+    vertical-align: middle;
+}
+
+section p {
+    padding: 0 0 0 6px;
+}
+
+.about {
+    background-color: #ffffff;
+    padding-bottom: 2em;
+}
+
+.smallcontainer {
+    width: 50%;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 900px) {
+    section {
+        width: 80%;
+    }
+
+    .smallcontainer {
+        width: 80%;
+    }
+}
