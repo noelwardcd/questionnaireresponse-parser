@@ -60,7 +60,8 @@ function populateResponse(jsonObj) {
     //Loop through the main categorical section headers
     for (var indexHeader = 0; indexHeader < headers.length; indexHeader++) {
 
-        //If there is an "answer" defined at this point, a conditional question was used, indent the following items
+        /* If there is an "answer" defined at this point, either a conditional question was used,
+        or a question without any header was used, display the items, indenting any conditional items */
         if(typeof headers[indexHeader].answer !== 'undefined') {
 
             let line = renderQuestion(headers[indexHeader]);
@@ -68,7 +69,10 @@ function populateResponse(jsonObj) {
             line.appendChild(answer);
             qrSection.appendChild(line);
 
-            //Loop the sub-questions and answer(s) to the conditional question
+            //Check if there are subquestions
+            if(typeof headers[indexHeader].item !== 'undefined') {
+
+                            //Loop the sub-questions and answer(s) to the conditional question
             let answers = headers[indexHeader].answer;
 
             for(var indexCondAnswer = 0; indexCondAnswer < answers.length; indexCondAnswer++) {
@@ -94,9 +98,14 @@ function populateResponse(jsonObj) {
                             indent.appendChild(line);
                             qrSection.appendChild(indent);
                         }
-                }
+                    }
                 
-            } // end of the loop to the conditional question's answer 
+                } // end of the loop to the conditional question's answer 
+
+                } else {
+
+            }
+
 
         // Standard questions and answers will be displayed as no conditional was detected
         } else {
