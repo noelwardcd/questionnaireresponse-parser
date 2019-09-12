@@ -88,10 +88,10 @@
                   "valueString": "tag1"
                 },
                 {
-                  "valueInteger": "tag2"
+                  "valueString": "tag2"
                 },
                 {
-                  "valueInteger": "tag3"
+                  "valueString": "tag3"
                 }
               ]
             },
