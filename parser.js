@@ -19,7 +19,7 @@ function getJSONData(URL) {
 
     /* When the JSON loads, call the function to populate the payload data onto the
     webpage and populate the text-area with a text version of the data for testing */
-    qrRequest.onload = function() {
+    qrRequest.onload = function () {
         let qResponse = qrRequest.response;
         qrJSONInput.textContent = JSON.stringify(qResponse, undefined, 3);
         populateResponse(qResponse);
@@ -32,17 +32,17 @@ qrDropdownBox.addEventListener('change', (event) => {
     const result = event.target.value;
 
     clearJSONResults();
-    if(result == 1) {
+    if (result == 1) {
         getJSONData(qrSampleRequestURL);
     }
-    if(result == 2) {
+    if (result == 2) {
         getJSONData(qrExampleHomecareRequestURL);
     }
-    
+
 });
 
 // Event Listener for the submit button
-qrSubmitButton.addEventListener("click", function(event) {
+qrSubmitButton.addEventListener("click", function (event) {
 
     clearJSONResults();
 
@@ -54,15 +54,15 @@ qrSubmitButton.addEventListener("click", function(event) {
 
 /* Parse through the JSON file, checking for nested and conditional properties,
 then displaying all of the response contents to a section on the page */
-function populateResponse(jsonObj) {    
+function populateResponse(jsonObj) {
     let headers = jsonObj.resource.item;
 
-    //Loop through the main categorical section headers
+    //Loop through the main categorical section headers or non-header questions in the first item
     for (var indexHeader = 0; indexHeader < headers.length; indexHeader++) {
 
-        /* If there is an "answer" defined at this point, either a conditional question was used,
-        or a question without any header was used, display the items, indenting any conditional items */
-        if(typeof headers[indexHeader].answer !== 'undefined') {
+        /* If there is an "answer" defined at this point, either it is a conditional question,
+        or a question without any header, display the items, indenting any conditional items */
+        if (typeof headers[indexHeader].answer !== 'undefined') {
 
             let line = renderQuestion(headers[indexHeader]);
             let answer = renderConditionalAnswer(headers[indexHeader].answer[0]);
@@ -70,17 +70,57 @@ function populateResponse(jsonObj) {
             qrSection.appendChild(line);
 
             //Check if there are subquestions
-            if(typeof headers[indexHeader].item !== 'undefined') {
+            if (typeof headers[indexHeader].item !== 'undefined') {
 
-                            //Loop the sub-questions and answer(s) to the conditional question
-            let answers = headers[indexHeader].answer;
+                //Loop through any questions which contain no header item above them
+                let answers = headers[indexHeader].answer;
 
-            for(var indexCondAnswer = 0; indexCondAnswer < answers.length; indexCondAnswer++) {
-                for (item in answers) {
-                    let itemText = item;
+                // If there are questions without any headers
+                if (typeof answers.length !== 'undefined') {
+
+                    for (var indexCondAnswer = 0; indexCondAnswer < answers.length; indexCondAnswer++) {
+
+                        if (typeof headers[indexHeader].answer[indexCondAnswer].item.length !== 'undefined') {
+
+                            //Loop through the associated sub-questions
+                            for (var indexSubQuestion = 0; indexSubQuestion < headers[indexHeader].answer[indexCondAnswer].item.length; indexSubQuestion++) {
+
+                                let indent = document.createElement('div');
+                                indent.style.marginLeft = '2em';
+                                let line = renderQuestion(headers[indexHeader].answer[indexCondAnswer].item[indexSubQuestion]);
+
+                                //Loop through the answers to each sub-question
+                                let answers = headers[indexHeader].answer[indexCondAnswer].item[indexSubQuestion].answer;
+                                for (var indexSubAnswer = 0; indexSubAnswer < answers.length; indexSubAnswer++) {
+
+                                    let answer = renderAnswer(answers[indexSubAnswer]);
+                                    line.appendChild(answer);
+
+                                }
+
+                                indent.appendChild(line);
+                                qrSection.appendChild(indent);
+                            }
+
+                        }
+
+
+
+
+                    } // end of the loop to the conditional question's answer 
+                }
+
+            } else {
+
+                //Loop the sub-questions and answer(s) to the conditional question
+                let answers = headers[indexHeader].answer;
+
+                for (var indexCondAnswer = 0; indexCondAnswer < answers.length; indexCondAnswer++) {
+
+                    if (typeof headers[indexHeader].answer[indexCondAnswer].item !== 'undefined') {
 
                         //Loop through the associated sub-questions
-                        for(var indexSubQuestion = 0; indexSubQuestion < headers[indexHeader].answer[indexCondAnswer].item.length; indexSubQuestion++) {
+                        for (var indexSubQuestion = 0; indexSubQuestion < headers[indexHeader].answer[indexCondAnswer].item.length; indexSubQuestion++) {
 
                             let indent = document.createElement('div');
                             indent.style.marginLeft = '2em';
@@ -88,7 +128,7 @@ function populateResponse(jsonObj) {
 
                             //Loop through the answers to each sub-question
                             let answers = headers[indexHeader].answer[indexCondAnswer].item[indexSubQuestion].answer;
-                            for(var indexSubAnswer = 0; indexSubAnswer < answers.length; indexSubAnswer++) {
+                            for (var indexSubAnswer = 0; indexSubAnswer < answers.length; indexSubAnswer++) {
 
                                 let answer = renderAnswer(answers[indexSubAnswer]);
                                 line.appendChild(answer);
@@ -98,16 +138,15 @@ function populateResponse(jsonObj) {
                             indent.appendChild(line);
                             qrSection.appendChild(indent);
                         }
-                    }
-                
-                } // end of the loop to the conditional question's answer 
 
-                } else {
+                    }
+
+                } // end of the loop to the conditional question's answer 
 
             }
 
 
-        // Standard questions and answers will be displayed as no conditional was detected
+            // Standard questions and answers will be displayed as no conditional was detected
         } else {
 
             let header = document.createElement('h1');
@@ -115,38 +154,38 @@ function populateResponse(jsonObj) {
             qrSection.appendChild(header);
 
             //Loop through the questions and display them in bold text
-            for(var indexSubQuestion = 0; indexSubQuestion < headers[indexHeader].item.length; indexSubQuestion++) {
+            for (var indexSubQuestion = 0; indexSubQuestion < headers[indexHeader].item.length; indexSubQuestion++) {
 
                 let line = renderQuestion(headers[indexHeader].item[indexSubQuestion]);
                 qrSection.appendChild(line);
-                
+
                 //jsonObj.resource.item[i].item[x].answer
                 let answers = headers[indexHeader].item[indexSubQuestion].answer;
-                for(var indexSubAnswer = 0; indexSubAnswer < answers.length; indexSubAnswer++) {
+                for (var indexSubAnswer = 0; indexSubAnswer < answers.length; indexSubAnswer++) {
 
                     //Loop through answers and append next to questions, multi-select are separated with commas
-                    if(answers.length > 1) {
+                    if (answers.length > 1) {
 
                         //On the last answer in multi-select, don't include a comma (stop at 2nd last)
-                        if(indexSubAnswer <= (answers.length-2)) {
-                        let answer = renderMultiAnswer(answers[indexSubAnswer]);
-                        line.appendChild(answer);
-                        } else { 
-                        let answer = renderAnswer(answers[indexSubAnswer]);
+                        if (indexSubAnswer <= (answers.length - 2)) {
+                            let answer = renderMultiAnswer(answers[indexSubAnswer]);
+                            line.appendChild(answer);
+                        } else {
+                            let answer = renderAnswer(answers[indexSubAnswer]);
                             line.appendChild(answer);
                         }
-                        
+
                     } else {
                         //Only 1 answer was received
-                            let answer = renderAnswer(answers[indexSubAnswer])
-                            line.appendChild(answer);
+                        let answer = renderAnswer(answers[indexSubAnswer])
+                        line.appendChild(answer);
                     }
-                    
+
                 }
-    
+
             }
         } // end of the Else for if the headers has an "answer" defined instead of just a standard item
-        
+
     } // End of the (for i = 0...) headers loop
 }
 
@@ -170,7 +209,7 @@ function renderQuestion(obj) {
     let line = document.createElement('p');
     let question = document.createElement('span');
     question.style.fontWeight = 'bold';
-    if(obj.text.charAt(obj.text.length-1) == ":") {
+    if (obj.text.charAt(obj.text.length - 1) == ":") {
         question.textContent = obj.text + " ";
     } else {
         question.textContent = obj.text + ': ';
@@ -216,5 +255,5 @@ function renderConditionalAnswer(obj) {
 function clearJSONResults() {
     while (qrSection.firstChild) {
         qrSection.removeChild(qrSection.firstChild);
-        }
+    }
 }
