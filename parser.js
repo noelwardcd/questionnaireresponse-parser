@@ -246,9 +246,61 @@ this should typically be used for a true/false boolean question */
 function renderConditionalAnswer(obj) {
     let answer = document.createElement('span');
     answer.style.fontWeight = 'normal';
-    answer.textContent = obj.valueBoolean;
+    answer.textContent = getConditionalAnswerText(obj);
 
     return answer;
+}
+
+/* Determines which type of value the object is holding then returns it as a string.
+  Returns a blank string if it does not contain a supported type */
+function getConditionalAnswerText(obj) {
+    let response = "";
+
+    if (typeof obj.valueBoolean !== 'undefined') {
+        response += obj.valueBoolean;
+    }
+
+    if (typeof obj.valueDecimal !== 'undefined') {
+        response += obj.valueDecimal;
+    }
+
+    if (typeof obj.valueInteger !== 'undefined') {
+        response += obj.valueInteger;
+    }
+
+    if (typeof obj.valueDate !== 'undefined') {
+        response += obj.valueDate;
+    }
+
+    if (typeof obj.valueDateTime !== 'undefined') {
+        response += obj.valueInteger;
+    }
+
+    if (typeof obj.valueTime !== 'undefined') {
+        response += obj.valueTime;
+    }
+
+    if (typeof obj.valueString !== 'undefined') {
+        response += obj.valueString;
+    }
+
+    if (typeof obj.valueUri !== 'undefined') {
+        response += obj.valueUri;
+    }
+
+    if (typeof obj.valueAttachment !== 'undefined') {
+        response += obj.valueAttachment;
+    }
+
+    if (typeof obj.valueCoding !== 'undefined') {
+        response += obj.valueCoding;
+    }
+
+    if (typeof obj.valueQuantity !== 'undefined') {
+        response += obj.valueQuantity;
+    }
+
+    return response;
 }
 
 // Remove the previous JSON data from the page so new data can be displayed
