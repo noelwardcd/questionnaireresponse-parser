@@ -4,7 +4,7 @@ body {
     font-size: 13px;
     color: #3d3d3d;
     -webkit-font-smoothing: antialiased;
-    background: #F3F3F3;
+    background: #f3f3f3;
 }
 
 .cd {
@@ -26,7 +26,8 @@ body {
     margin-left: 2.5%;
     /* background: url(QuestionnaireReponseLogo.svg) no-repeat center left; */
 }
-.powered-by-caredove, .powered-by-caredove img {
+.powered-by-caredove,
+.powered-by-caredove img {
     margin: 0 auto;
     padding: 1.5em 0 2em 0;
     width: auto;
@@ -58,6 +59,10 @@ button {
     border-radius: 4px;
     width: 8em;
     height: 2em;
+}
+
+.indent {
+    margin-left: 2em;
 }
 
 .question {

@@ -1,65 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="qrstyle.css" rel="stylesheet" />
+        <title>QuestionnaireResponse</title>
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="qrstyle.css" rel="stylesheet">
-    <title>QuestionnaireResponse</title>
-</head>
-
-<body>
-
-    <div class="container logos">
-        <div class="questionnaire-response-logo"><img src="QuestionnaireReponseLogo.svg"></div>
-    </div>
-
-    <div class="container cd">
-        <div class="form">
-            <div class="row">
-                <p>Select a Sample QuestionnaireResponse</p>
-            </div>
-            <div class="row">
-                <select id = 'jsonDropdown'>
-                    <option value = "1">Sample Payload</option>
-                    <option value = "2">Sample Payload without headers</option>
-                    <option value = "3">Example Homecare Referral</option>
-                </select>
-            </div>
-            <div class="row">
-                <p>Or paste a FHIR QuestionnaireResponse JSON</p>
-            </div>
-            <div class="row">
-                <textarea rows='16' cols='80' id='jsonInput'></textarea>
-            </div>
-            <div class="row">
-                <button id='submit'>Process</button>
+    <body>
+        <div class="container logos">
+            <div class="questionnaire-response-logo">
+                <img src="QuestionnaireReponseLogo.svg" />
             </div>
         </div>
-    </div>
 
-    <section id='QuestionnaireResponse'>
-    </section>
-
-    <div class="container about">
-        <div class="smallcontainer">
-            <h1>ABOUT</h1>
-            <p>The QuestionnaireResponse formatter was created to help with debugging HL7 FHIR QuestionnaireResponse payloads,
-                which hold ad-hoc structured data. This little tool hoped to solve the problem of helping to visualize the contents 
-                of a QuestionnaireResponse.item element in a way that might be displayed and read in an application by human beings.</p>
-            <p>Note that this tool is intended for a QuestionnaireResponse that does NOT reference a corresponding Questionnaire resource.
-                Rather, all of the elements that a user needs to interpret the meaning of a data point (i.e., headers, question text, 
-                answer text) is included in the QuestionnaireResponse payload.</p>
-            <p>Learn more about
-                    <a href="https://www.hl7.org/fhir/questionnaireresponse.html">QuestionnaireResponse</a> and 
-                    <a href="https://www.hl7.org/fhir/questionnaire.html">Questionnaire</a> at 
-                    the <a href="https://hl7.org/fhir">HL7 FHIR website</a>.</p>
-
-            <div class="powered-by-caredove"><a href="https://www.caredove.com"><img src="PoweredByCaredove.svg"></a></div>
+        <div class="container cd">
+            <div class="form">
+                <div class="row">
+                    <p>Select a Sample QuestionnaireResponse</p>
+                </div>
+                <div class="row">
+                    <select id="jsonDropdown">
+                        <option value="1">Sample Payload</option>
+                        <option value="2"
+                            >Sample Payload without headers</option
+                        >
+                        <option value="3">Example Homecare Referral</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <p>Or paste a FHIR QuestionnaireResponse JSON</p>
+                </div>
+                <div class="row">
+                    <textarea rows="16" cols="80" id="jsonInput"></textarea>
+                </div>
+                <div class="row">
+                    <button id="submit">Process</button>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <script src="parser.js" async></script>
+        <section id="QuestionnaireResponse"></section>
 
-</body>
+        <div class="container about">
+            <div class="smallcontainer">
+                <h1>ABOUT</h1>
+                <p>
+                    The QuestionnaireResponse formatter was created to help with
+                    debugging HL7 FHIR QuestionnaireResponse payloads, which
+                    hold ad-hoc structured data. This little tool hoped to solve
+                    the problem of helping to visualize the contents of a
+                    QuestionnaireResponse.item element in a way that might be
+                    displayed and read in an application by human beings.
+                </p>
+                <p>
+                    Note that this tool is intended for a QuestionnaireResponse
+                    that does NOT reference a corresponding Questionnaire
+                    resource. Rather, all of the elements that a user needs to
+                    interpret the meaning of a data point (i.e., headers,
+                    question text, answer text) is included in the
+                    QuestionnaireResponse payload.
+                </p>
+                <p>
+                    Learn more about
+                    <a
+                        href="https://www.hl7.org/fhir/questionnaireresponse.html"
+                        >QuestionnaireResponse</a
+                    >
+                    and
+                    <a href="https://www.hl7.org/fhir/questionnaire.html"
+                        >Questionnaire</a
+                    >
+                    at the <a href="https://hl7.org/fhir">HL7 FHIR website</a>.
+                </p>
+
+                <div class="powered-by-caredove">
+                    <a href="https://www.caredove.com"
+                        ><img src="PoweredByCaredove.svg"
+                    /></a>
+                </div>
+            </div>
+        </div>
+
+        <script src="parser.js" async></script>
+    </body>
 </html>

@@ -82,7 +82,7 @@ function populateResponse(jsonObj) {
                     typeof headers[indexHeader].answer[indexCondAnswer].item !==
                     'undefined'
                 ) {
-                    //Loop through the sub-questions
+                    //Loop through the sub-questions and indent
                     for (
                         var indexSubQuestion = 0;
                         indexSubQuestion <
@@ -90,13 +90,12 @@ function populateResponse(jsonObj) {
                             .length;
                         indexSubQuestion++
                     ) {
-                        let indent = document.createElement('div');
-                        indent.style.marginLeft = '2em';
                         let line = renderQuestion(
                             headers[indexHeader].answer[indexCondAnswer].item[
                                 indexSubQuestion
                             ]
                         );
+                        line.classList.add('indent');
 
                         //Loop through the answers to each sub-question
                         let answers =
@@ -112,8 +111,7 @@ function populateResponse(jsonObj) {
                             line.appendChild(answer);
                         }
 
-                        indent.appendChild(line);
-                        qrSection.appendChild(indent);
+                        qrSection.appendChild(line);
                     }
                 }
             } // end of the loop to the conditional sub-questions
@@ -167,7 +165,7 @@ function populateResponse(jsonObj) {
 }
 
 /* Determines which type of value the object is holding then returns it as a string.
-  Returns a blank string if it does not contain a supported type */
+  Returns an empty string if it does not contain a supported type */
 function getAnswerText(obj) {
     let {
         valueBoolean,
@@ -238,7 +236,7 @@ function renderQuestion(obj) {
     let { text } = obj;
     let line = document.createElement('p');
     let question = document.createElement('span');
-    question.style.fontWeight = 'bold';
+    question.classList.add('question');
     if (text.charAt(text.length - 1) == ':') {
         question.textContent = text + ' ';
     } else {
@@ -253,7 +251,7 @@ function renderQuestion(obj) {
 normal style applied, to remove any bolding, and then returns the answer as an object */
 function renderAnswer(obj) {
     let answer = document.createElement('span');
-    answer.style.fontWeight = 'normal';
+    answer.classList.add('answer');
     answer.textContent = getAnswerText(obj);
 
     return answer;
@@ -264,7 +262,6 @@ with a normal style applied, to remove any bolding, adding a comma at the end, a
 returns the answer as an object */
 function renderMultiAnswer(obj) {
     let answer = document.createElement('span');
-    answer.style.fontWeight = 'normal';
     answer.textContent = getAnswerText(obj) + ', ';
 
     return answer;
