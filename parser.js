@@ -1,18 +1,20 @@
-// Store where the markup will be applied
+// Store the elements where the markup will be applied
 var qrSection = document.getElementById('QuestionnaireResponse');
 var qrJSONInput = document.getElementById('jsonInput');
 var qrSubmitButton = document.getElementById('submit');
 var qrDropdownBox = document.getElementById('jsonDropdown');
 
-//Initial JSON load
-const qrSampleRequestURL = 'response.json';
+// Initial JSON load
+const qrSampleRequestURL = 'sample.json';
+const qrSampleNoHeadersRequestURL = 'samplenoheaders.json';
 const qrExampleHomecareRequestURL = 'samplehomecareref.json';
+
 getJSONData(qrSampleRequestURL);
 
-/* Receives a URL pointing to a JSON file either locally or on the web, parses through
-the retrived data, stores it in the textarea for editing, and updates the page to display it */
+/* Receives a URL pointing to a JSON file parses through the retrived data, stores
+it in the textarea for editing, and updates the page to display it */
 function getJSONData(URL) {
-    var qrRequest = new XMLHttpRequest();
+    let qrRequest = new XMLHttpRequest();
     qrRequest.open('GET', URL);
     qrRequest.responseType = 'json';
     qrRequest.send();
@@ -36,6 +38,9 @@ qrDropdownBox.addEventListener('change', (event) => {
         getJSONData(qrSampleRequestURL);
     }
     if (result == 2) {
+        getJSONData(qrSampleNoHeadersRequestURL);
+    }
+    if (result == 3) {
         getJSONData(qrExampleHomecareRequestURL);
     }
 
@@ -65,7 +70,7 @@ function populateResponse(jsonObj) {
         if (typeof headers[indexHeader].answer !== 'undefined') {
 
             let line = renderQuestion(headers[indexHeader]);
-            let answer = renderConditionalAnswer(headers[indexHeader].answer[0]);
+            let answer = renderAnswer(headers[indexHeader].answer[0]);
             line.appendChild(answer);
             qrSection.appendChild(line);
 
@@ -189,30 +194,72 @@ function populateResponse(jsonObj) {
     } // End of the (for i = 0...) headers loop
 }
 
-/* Determines which of the associated datatypes is contained
- in the answer object and returns the answer as a string */
+/* Determines which type of value the object is holding then returns it as a string.
+  Returns a blank string if it does not contain a supported type */
 function getAnswerText(obj) {
-    let response = "";
-
-    for (item in obj) {
-        let itemText = item;
-        response += obj[itemText];
-    }
-
-    return response;
+    let { valueBoolean, valueDecimal, valueInteger, valueDate, valueDateTime, valueTime,
+        valueString, valueUri, valueAttachment, valueCoding, valueQuantity } = obj;
+        let response = "";
+    
+        if (typeof valueBoolean !== 'undefined') {
+            response += valueBoolean;
+        }
+    
+        if (typeof valueDecimal !== 'undefined') {
+            response += valueDecimal;
+        }
+    
+        if (typeof valueInteger !== 'undefined') {
+            response += valueInteger;
+        }
+    
+        if (typeof valueDate !== 'undefined') {
+            response += valueDate;
+        }
+    
+        if (typeof valueDateTime !== 'undefined') {
+            response += valueDateTime;
+        }
+    
+        if (typeof valueTime !== 'undefined') {
+            response += valueTime;
+        }
+    
+        if (typeof valueString !== 'undefined') {
+            response += valueString;
+        }
+    
+        if (typeof valueUri !== 'undefined') {
+            response += valueUri;
+        }
+    
+        if (typeof valueAttachment !== 'undefined') {
+            response += valueAttachment;
+        }
+    
+        if (typeof valueCoding !== 'undefined') {
+            response += valueCoding;
+        }
+    
+        if (typeof valueQuantity !== 'undefined') {
+            response += valueQuantity;
+        }
+    
+        return response;
 }
 
 /* Displays a question on the page by taking an object, creating a paragraph element,
 styling it bold with a span, and then returning the question paragraph as an object,
 verifies whether the last character of the question is a semi-colon, if not one is added */
 function renderQuestion(obj) {
+    let { text } = obj;
     let line = document.createElement('p');
     let question = document.createElement('span');
     question.style.fontWeight = 'bold';
-    if (obj.text.charAt(obj.text.length - 1) == ":") {
-        question.textContent = obj.text + " ";
+    if (text.charAt(text.length - 1) == ":") {
+        question.textContent = text + " ";
     } else {
-        question.textContent = obj.text + ': ';
+        question.textContent = text + ': ';
     }
     line.appendChild(question);
 
@@ -238,69 +285,6 @@ function renderMultiAnswer(obj) {
     answer.textContent = getAnswerText(obj) + ', ';
 
     return answer;
-}
-
-/* Displays an answer on the page by taking an object, creating a span element with a
-normal style applied, to remove any bolding, and then returns the answer as an object,
-this should typically be used for a true/false boolean question */
-function renderConditionalAnswer(obj) {
-    let answer = document.createElement('span');
-    answer.style.fontWeight = 'normal';
-    answer.textContent = getConditionalAnswerText(obj);
-
-    return answer;
-}
-
-/* Determines which type of value the object is holding then returns it as a string.
-  Returns a blank string if it does not contain a supported type */
-function getConditionalAnswerText(obj) {
-    let response = "";
-
-    if (typeof obj.valueBoolean !== 'undefined') {
-        response += obj.valueBoolean;
-    }
-
-    if (typeof obj.valueDecimal !== 'undefined') {
-        response += obj.valueDecimal;
-    }
-
-    if (typeof obj.valueInteger !== 'undefined') {
-        response += obj.valueInteger;
-    }
-
-    if (typeof obj.valueDate !== 'undefined') {
-        response += obj.valueDate;
-    }
-
-    if (typeof obj.valueDateTime !== 'undefined') {
-        response += obj.valueInteger;
-    }
-
-    if (typeof obj.valueTime !== 'undefined') {
-        response += obj.valueTime;
-    }
-
-    if (typeof obj.valueString !== 'undefined') {
-        response += obj.valueString;
-    }
-
-    if (typeof obj.valueUri !== 'undefined') {
-        response += obj.valueUri;
-    }
-
-    if (typeof obj.valueAttachment !== 'undefined') {
-        response += obj.valueAttachment;
-    }
-
-    if (typeof obj.valueCoding !== 'undefined') {
-        response += obj.valueCoding;
-    }
-
-    if (typeof obj.valueQuantity !== 'undefined') {
-        response += obj.valueQuantity;
-    }
-
-    return response;
 }
 
 // Remove the previous JSON data from the page so new data can be displayed
