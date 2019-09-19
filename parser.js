@@ -164,22 +164,22 @@ function populateResponse(jsonObj) {
     } // End of the indexHeader loop
 }
 
-/* Determines which type of value the object is holding then returns it as a string.
-  Returns an empty string if it does not contain a supported type */
-function getAnswerText(obj) {
-    let {
-        valueBoolean,
-        valueDecimal,
-        valueInteger,
-        valueDate,
-        valueDateTime,
-        valueTime,
-        valueString,
-        valueUri,
-        valueAttachment,
-        valueCoding,
-        valueQuantity
-    } = obj;
+/* Takes an answer object, destructures it and determines which types and
+ values it is holding then returns the value as a string. Returns an empty
+  string if it does not contain a supported type */
+function getAnswerText({
+    valueBoolean,
+    valueDecimal,
+    valueInteger,
+    valueDate,
+    valueDateTime,
+    valueTime,
+    valueString,
+    valueUri,
+    valueAttachment,
+    valueCoding,
+    valueQuantity
+}) {
     let response = '';
 
     if (typeof valueBoolean !== 'undefined') {
