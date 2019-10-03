@@ -1,275 +1,273 @@
 {
-    "resource":{
-       "resourceType":"QuestionnaireResponse",
-       "id":"7674cab2-cc1f-4f7c-969d-62a4988501e9",
-       "identifier":[
-          {
-             "system":"http://example.org/fhir/NamingSystem/questionnaire-ids",
-             "value":"414692"
-          }
-       ],
-       "basedOn":[
-          {
-             "reference":"ServiceRequest/365985"
-          }
-       ],
-       "status":"completed",
-       "authored":"2019-08-27T21:33:34Z",
-       "item":[
-          {
-             "linkId":"1",
-             "text":"Route: Intravenous Infusion",
-             "item":[
+    "resourceType": "QuestionnaireResponse",
+    "id": "7674cab2-cc1f-4f7c-969d-62a4988501e9",
+    "identifier": [
+        {
+            "system": "http://example.org/fhir/NamingSystem/questionnaire-ids",
+            "value": "414692"
+        }
+    ],
+    "basedOn": [
+        {
+            "reference": "ServiceRequest/365985"
+        }
+    ],
+    "status": "completed",
+    "authored": "2019-08-27T21:33:34Z",
+    "item": [
+        {
+            "linkId": "1",
+            "text": "Route: Intravenous Infusion",
+            "item": [
                 {
-                   "linkID":"1.1",
-                   "text":"Delivery Method",
-                   "answer":[
-                      {
-                         "valueString":"Peripheral IV (PIV)"
-                      }
-                   ]
+                    "linkID": "1.1",
+                    "text": "Delivery Method",
+                    "answer": [
+                        {
+                            "valueString": "Peripheral IV (PIV)"
+                        }
+                    ]
                 },
                 {
-                   "linkID":"1.2",
-                   "text":"Request",
-                   "answer":[
-                      {
-                         "valueString":"As per protocol -- Flush each time IV catheter is [...]"
-                      }
-                   ]
+                    "linkID": "1.2",
+                    "text": "Request",
+                    "answer": [
+                        {
+                            "valueString": "As per protocol -- Flush each time IV catheter is [...]"
+                        }
+                    ]
                 },
                 {
-                   "linkID":"1.3",
-                   "text":"PICC Insertion Pending",
-                   "answer":[
-                      {
-                         "valueString":"Yes"
-                      }
-                   ]
+                    "linkID": "1.3",
+                    "text": "PICC Insertion Pending",
+                    "answer": [
+                        {
+                            "valueString": "Yes"
+                        }
+                    ]
                 },
                 {
-                   "linkID":"1.4",
-                   "text":"Move to PICC Protocol once completion complete?",
-                   "answer":[
-                      {
-                         "valueString":"As per protocol -- Initial dressing change in 48 [...]"
-                      }
-                   ]
+                    "linkID": "1.4",
+                    "text": "Move to PICC Protocol once completion complete?",
+                    "answer": [
+                        {
+                            "valueString": "As per protocol -- Initial dressing change in 48 [...]"
+                        }
+                    ]
                 },
                 {
-                   "linkID":"1.5",
-                   "text":"First dose to be given in community?",
-                   "answer":[
-                      {
-                         "valueString":"Yes"
-                      }
-                   ]
+                    "linkID": "1.5",
+                    "text": "First dose to be given in community?",
+                    "answer": [
+                        {
+                            "valueString": "Yes"
+                        }
+                    ]
                 },
                 {
-                   "linkID":"1.6",
-                   "text":"Patient meets ALL eligibility criteria for first dose?",
-                   "answer":[
-                      {
-                         "valueString":"Yes"
-                      }
-                   ]
+                    "linkID": "1.6",
+                    "text": "Patient meets ALL eligibility criteria for first dose?",
+                    "answer": [
+                        {
+                            "valueString": "Yes"
+                        }
+                    ]
                 }
-             ]
-          },
-          {
-             "linkId":"1.7",
-             "text":"Bloodwork Required",
-             "answer":[
+            ]
+        },
+        {
+            "linkId": "1.7",
+            "text": "Bloodwork Required",
+            "answer": [
                 {
-                   "valueBoolean":true,
-                   "item":[
-                      {
-                         "linkId":"1.7.1",
-                         "text":"Requisition:",
-                         "answer":[
-                            {
-                               "valueString":"Given to patient"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"1.7.2",
-                         "text":"Requisition given to patient for all IV antibiotic orders ñ weekly CBC, diff, creat, ALT, AST:",
-                         "answer":[
-                            {
-                               "valueString":"Yes"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"1.7.3",
-                         "text":"Requisition given to patient for vancomycin ñ weekly level, CBC, diff, creat level",
-                         "answer":[
-                            {
-                               "valueString":"Yes"
-                            }
-                         ]
-                      }
-                   ]
+                    "valueBoolean": true,
+                    "item": [
+                        {
+                            "linkId": "1.7.1",
+                            "text": "Requisition:",
+                            "answer": [
+                                {
+                                    "valueString": "Given to patient"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "1.7.2",
+                            "text": "Requisition given to patient for all IV antibiotic orders ñ weekly CBC, diff, creat, ALT, AST:",
+                            "answer": [
+                                {
+                                    "valueString": "Yes"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "1.7.3",
+                            "text": "Requisition given to patient for vancomycin ñ weekly level, CBC, diff, creat level",
+                            "answer": [
+                                {
+                                    "valueString": "Yes"
+                                }
+                            ]
+                        }
+                    ]
                 }
-             ]
-          },
-          {
-             "linkId":"1.8",
-             "text":"Hydration Orders",
-             "answer":[
+            ]
+        },
+        {
+            "linkId": "1.8",
+            "text": "Hydration Orders",
+            "answer": [
                 {
-                   "valueBoolean":true,
-                   "item":[
-                      {
-                         "linkId":"1.8.1",
-                         "text":"Fluid:",
-                         "answer":[
-                            {
-                               "valueString":"Saline"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"1.8.2",
-                         "text":"Quantity:",
-                         "answer":[
-                            {
-                               "valueInteger":"12"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"1.8.3",
-                         "text":"Rate:",
-                         "answer":[
-                            {
-                               "valueString":"200 ml / hr"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"1.8.4",
-                         "text":"Frequency:",
-                         "answer":[
-                            {
-                               "valueString":"twice per day"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"1.8.5",
-                         "text":"Stop/Reassess Date:",
-                         "answer":[
-                            {
-                               "valueDate":"2019-01-01"
-                            }
-                         ]
-                      }
-                   ]
+                    "valueBoolean": true,
+                    "item": [
+                        {
+                            "linkId": "1.8.1",
+                            "text": "Fluid:",
+                            "answer": [
+                                {
+                                    "valueString": "Saline"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "1.8.2",
+                            "text": "Quantity:",
+                            "answer": [
+                                {
+                                    "valueInteger": "12"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "1.8.3",
+                            "text": "Rate:",
+                            "answer": [
+                                {
+                                    "valueString": "200 ml / hr"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "1.8.4",
+                            "text": "Frequency:",
+                            "answer": [
+                                {
+                                    "valueString": "twice per day"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "1.8.5",
+                            "text": "Stop/Reassess Date:",
+                            "answer": [
+                                {
+                                    "valueDate": "2019-01-01"
+                                }
+                            ]
+                        }
+                    ]
                 }
-             ]
-          },
-          {
-             "linkId":"2",
-             "text":"Medication Prescription",
-             "item":[
+            ]
+        },
+        {
+            "linkId": "2",
+            "text": "Medication Prescription",
+            "item": [
                 {
-                   "linkID":"2.1",
-                   "text":"Drug Allergies",
-                   "answer":[
-                      {
-                         "valueString":"Yes"
-                      }
-                   ]
+                    "linkID": "2.1",
+                    "text": "Drug Allergies",
+                    "answer": [
+                        {
+                            "valueString": "Yes"
+                        }
+                    ]
                 }
-             ]
-          },
-          {
-             "linkId":"2.2",
-             "text":"Prescription 1",
-             "answer":[
+            ]
+        },
+        {
+            "linkId": "2.2",
+            "text": "Prescription 1",
+            "answer": [
                 {
-                   "valueBoolean":true,
-                   "item":[
-                      {
-                         "linkId":"2.2.1",
-                         "text":"Drug:",
-                         "answer":[
-                            {
-                               "valueString":"Aspirin"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"2.2.2",
-                         "text":"Dose",
-                         "answer":[
-                            {
-                               "valueString":"500mg"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"2.2.3",
-                         "text":"Frequency",
-                         "answer":[
-                            {
-                               "valueString":"2 x daily"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"2.2.4",
-                         "text":"Route",
-                         "answer":[
-                            {
-                               "valueString":"Oral"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"2.2.5",
-                         "text":"Stop/Reassess Date",
-                         "answer":[
-                            {
-                               "valueDate":"2019-01-01"
-                            }
-                         ]
-                      }
-                   ]
+                    "valueBoolean": true,
+                    "item": [
+                        {
+                            "linkId": "2.2.1",
+                            "text": "Drug:",
+                            "answer": [
+                                {
+                                    "valueString": "Aspirin"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "2.2.2",
+                            "text": "Dose",
+                            "answer": [
+                                {
+                                    "valueString": "500mg"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "2.2.3",
+                            "text": "Frequency",
+                            "answer": [
+                                {
+                                    "valueString": "2 x daily"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "2.2.4",
+                            "text": "Route",
+                            "answer": [
+                                {
+                                    "valueString": "Oral"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "2.2.5",
+                            "text": "Stop/Reassess Date",
+                            "answer": [
+                                {
+                                    "valueDate": "2019-01-01"
+                                }
+                            ]
+                        }
+                    ]
                 }
-             ]
-          },
-          {
-             "linkId":"2.3",
-             "text":"Recent creatinine level completed",
-             "answer":[
+            ]
+        },
+        {
+            "linkId": "2.3",
+            "text": "Recent creatinine level completed",
+            "answer": [
                 {
-                   "valueBoolean":true,
-                   "item":[
-                      {
-                         "linkId":"2.3.1",
-                         "text":"Level",
-                         "answer":[
-                            {
-                               "valueString":"High"
-                            }
-                         ]
-                      },
-                      {
-                         "linkId":"2.3.2",
-                         "text":"Date completed:",
-                         "answer":[
-                            {
-                               "valueDate":"2019-02-01"
-                            }
-                         ]
-                      }
-                   ]
+                    "valueBoolean": true,
+                    "item": [
+                        {
+                            "linkId": "2.3.1",
+                            "text": "Level",
+                            "answer": [
+                                {
+                                    "valueString": "High"
+                                }
+                            ]
+                        },
+                        {
+                            "linkId": "2.3.2",
+                            "text": "Date completed:",
+                            "answer": [
+                                {
+                                    "valueDate": "2019-02-01"
+                                }
+                            ]
+                        }
+                    ]
                 }
-             ]
-          }
-       ]
-    }
- }
+            ]
+        }
+    ]
+}

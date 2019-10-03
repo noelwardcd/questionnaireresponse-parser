@@ -8,6 +8,9 @@ var qrDropdownBox = document.getElementById('jsonDropdown');
 const qrSampleRequestURL = 'sample.json';
 const qrSampleNoHeadersRequestURL = 'samplenoheaders.json';
 const qrExampleHomecareRequestURL = 'samplehomecareref.json';
+const qrSampleSimpleRequestURL = 'qrsample-simple.json';
+const qrSampleMediumRequestURL = 'qrsample-medium.json';
+const qrSampleComplexRequestURL = 'qrsample-complex.json';
 
 getJSONData(qrSampleRequestURL);
 
@@ -42,6 +45,15 @@ qrDropdownBox.addEventListener('change', event => {
     if (result == 3) {
         getJSONData(qrExampleHomecareRequestURL);
     }
+    if (result == 4) {
+        getJSONData(qrSampleSimpleRequestURL);
+    }
+    if (result == 5) {
+        getJSONData(qrSampleMediumRequestURL);
+    }
+    if (result == 6) {
+        getJSONData(qrSampleComplexRequestURL);
+    }
 });
 
 // Event Listener for the submit button
@@ -57,111 +69,94 @@ qrSubmitButton.addEventListener('click', function(event) {
 /* Parse through the JSON file, checking for nested and conditional properties,
 then displaying all of the response contents to a section on the page */
 function populateResponse(jsonObj) {
-    let headers = jsonObj.resource.item;
-
-    //Loop through the main categorical section headers or non-header questions in the first item
-    for (var indexHeader = 0; indexHeader < headers.length; indexHeader++) {
-        /* If there is an "answer" defined at this point, either it is a conditional question,
-        or a question without any header, display the items, indenting any conditional items */
-        if (typeof headers[indexHeader].answer !== 'undefined') {
-            //Display questions/answers which are not nested in a header
-            let line = renderQuestion(headers[indexHeader]);
-            let answer = renderAnswer(headers[indexHeader].answer[0]);
-            line.appendChild(answer);
-            qrSection.appendChild(line);
-
-            //Loop through conditional sub-questions and answer(s)
-            let answers = headers[indexHeader].answer;
-            for (
-                var indexCondAnswer = 0;
-                indexCondAnswer < answers.length;
-                indexCondAnswer++
-            ) {
-                //Confirm at least 1 sub-question is stored
-                if (
-                    typeof headers[indexHeader].answer[indexCondAnswer].item !==
-                    'undefined'
-                ) {
-                    //Loop through the sub-questions and indent
-                    for (
-                        var indexSubQuestion = 0;
-                        indexSubQuestion <
-                        headers[indexHeader].answer[indexCondAnswer].item
-                            .length;
-                        indexSubQuestion++
-                    ) {
-                        let line = renderQuestion(
-                            headers[indexHeader].answer[indexCondAnswer].item[
-                                indexSubQuestion
-                            ]
-                        );
-                        line.classList.add('indent');
-
-                        //Loop through the answers to each sub-question
-                        let answers =
-                            headers[indexHeader].answer[indexCondAnswer].item[
-                                indexSubQuestion
-                            ].answer;
-                        for (
-                            var indexSubAnswer = 0;
-                            indexSubAnswer < answers.length;
-                            indexSubAnswer++
-                        ) {
-                            let answer = renderAnswer(answers[indexSubAnswer]);
-                            line.appendChild(answer);
-                        }
-
-                        qrSection.appendChild(line);
-                    }
-                }
-            } // end of the loop to the conditional sub-questions
-
-            // Standard questions and answers will be displayed, no conditional/headerless or subquestion was detected
+    /**
+     *
+     * @param {object} questionnaireResponse
+     */
+    const parse = questionnaireResponse => {
+        if (questionnaireResponse.item) {
+            parseItem(questionnaireResponse.item, 1);
         } else {
-            let header = document.createElement('h1');
-            header.textContent = headers[indexHeader].text;
-            qrSection.appendChild(header);
+            console.log('Invalid Questionnaire Response.');
+        }
+    };
 
-            //Loop through the questions and display them in bold text
-            for (
-                var indexSubQuestion = 0;
-                indexSubQuestion < headers[indexHeader].item.length;
-                indexSubQuestion++
-            ) {
-                let line = renderQuestion(
-                    headers[indexHeader].item[indexSubQuestion]
-                );
+    /**
+     *
+     * @param {array} item
+     */
+    const parseItem = (item, depth) => {
+        item.forEach(i => {
+            console.log(`###### ${i.text}`);
+
+            // non-headers
+            if (i.answer) {
+                let line = renderQuestion(i, depth);
                 qrSection.appendChild(line);
 
-                //jsonObj.resource.item[i].item[x].answer
-                let answers =
-                    headers[indexHeader].item[indexSubQuestion].answer;
-                for (
-                    var indexSubAnswer = 0;
-                    indexSubAnswer < answers.length;
-                    indexSubAnswer++
-                ) {
-                    //Loop through answers and append next to questions, multi-select are separated with commas
-                    if (answers.length > 1) {
-                        //On the last answer in multi-select, don't include a comma (stop at 2nd last)
-                        if (indexSubAnswer <= answers.length - 2) {
-                            let answer = renderMultiAnswer(
-                                answers[indexSubAnswer]
-                            );
-                            line.appendChild(answer);
-                        } else {
-                            let answer = renderAnswer(answers[indexSubAnswer]);
-                            line.appendChild(answer);
-                        }
-                    } else {
-                        //Only 1 answer was received
-                        let answer = renderAnswer(answers[indexSubAnswer]);
-                        line.appendChild(answer);
+                if (i.answer[0].hasOwnProperty('item')) {
+                    console.log('SUB QUESTIONS FOLLOW?');
+                    console.log(getAnswerText(i.answer[0]));
+
+                    let answer = renderAnswer(i.answer[0], depth);
+                    line.appendChild(answer);
+                }
+                parseAnswer(i.answer, line, depth + 1);
+            }
+
+            if (i.item) {
+                // headers
+                if (depth < 2) {
+                    if (!i.answer) {
+                        let line = renderHeader(i);
+                        qrSection.appendChild(line);
+                        console.log('ITEM.ITEM depth: %s', depth.toString());
                     }
                 }
+
+                parseItem(i.item, depth + 1);
             }
-        } // end of the Else containing all of the standard items / answers
-    } // End of the indexHeader loop
+
+            console.log('TOTAL depth: %s', depth);
+        });
+    };
+
+    /**
+     *
+     * @param {array} answer
+     */
+    const parseAnswer = (answer, line, depth) => {
+        answer.forEach(e => {
+            if (e.item) {
+                // conditional sub-question
+                parseItemWithSubQuestion(e.item, depth + 1);
+            } else {
+                console.log(Object.values(e).toString());
+
+                let answer = renderAnswer(e, depth);
+                line.appendChild(answer);
+            }
+        });
+    };
+
+    const parseItemWithSubQuestion = (item, depth) => {
+        item.forEach(i => {
+            if (i.answer) {
+                //SUB QUESTIONS AND ANSWERS
+                let line = renderQuestion(i, depth);
+                line.classList.add('indent');
+                qrSection.appendChild(line);
+                let answer = renderAnswer(i.answer[0], depth);
+                line.appendChild(answer);
+            }
+
+            if (i.item) {
+                parseItem(i.item, depth + 1);
+            }
+        });
+    };
+
+    parse(jsonObj);
 }
 
 /* Takes an answer object, destructures it and determines which types and
@@ -232,13 +227,17 @@ function getAnswerText({
 /* Displays a question on the page by taking an object, creating a paragraph element,
 styling it bold with a span, and then returning the question paragraph as an object,
 verifies whether the last character of the question is a semi-colon, if not one is added */
-function renderQuestion(obj) {
+function renderQuestion(obj, depth) {
     let { text } = obj;
     let line = document.createElement('p');
     let question = document.createElement('span');
     question.classList.add('question');
     if (text.charAt(text.length - 1) == ':') {
         question.textContent = text + ' ';
+    } else if (text.charAt(text.length - 1) == ' ') {
+        if (text.charAt(text.length - 2) == ':') {
+            question.textContent = text + ' ';
+        }
     } else {
         question.textContent = text + ': ';
     }
@@ -247,9 +246,20 @@ function renderQuestion(obj) {
     return line;
 }
 
+/**
+ * Takes an item object, displays a header on the page, creating an h1 element,
+ * and then returning the header as an object
+ * @param {text} object.text
+ */
+function renderHeader({ text }) {
+    let line = document.createElement('h1');
+    line.textContent = text;
+    return line;
+}
+
 /* Displays an answer on the page by taking an object, creating a span element with a
 normal style applied, to remove any bolding, and then returns the answer as an object */
-function renderAnswer(obj) {
+function renderAnswer(obj, depth) {
     let answer = document.createElement('span');
     answer.classList.add('answer');
     answer.textContent = getAnswerText(obj);
@@ -272,4 +282,17 @@ function clearJSONResults() {
     while (qrSection.firstChild) {
         qrSection.removeChild(qrSection.firstChild);
     }
+}
+
+// Determines if the provided json object is the "resource" or nested within a "resource" object
+function getQRObj(object) {
+    let obj;
+
+    if (typeof object.resourceType !== 'undefined') {
+        obj = object;
+    } else if (typeof object.resource.resourceType !== 'undefined') {
+        obj = object.resource;
+    }
+
+    return obj;
 }

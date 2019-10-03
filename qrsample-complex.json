@@ -1,0 +1,126 @@
+{
+    "resourceType": "QuestionnaireResponse",
+    "id": "g2tf1689-06b2-4b9d-b952-26d14551ef3t",
+    "basedOn": [
+        {
+            "reference": "ServiceRequest/88f151c0-a954-468a-88bd-5ae15c08e059"
+        }
+    ],
+    "status": "completed",
+    "subject": {
+        "reference": "Patient/04121321-4af5-424c-a0e1-ed3aab1c349d"
+    },
+    "authored": "2013-02-19T14:15:00-05:00",
+    "author": {
+        "reference": "PractitionerRole/p1bf1689-06b2-4b9d-b952-26d14551ef3p"
+    },
+    "item": [
+        {
+            "linkId": "1",
+            "text": "Route:",
+            "answer": [
+                {
+                    "valueString": "Intravenous Infusion"
+                }
+            ],
+            "item": [
+                {
+                    "linkID": "1.1",
+                    "text": "Delivery Method:",
+                    "answer": [
+                        {
+                            "valueString": "Peripheral IV (PIV)"
+                        }
+                    ],
+                    "item": [
+                        {
+                            "linkID": "1.1.1",
+                            "text": "Request",
+                            "answer": [
+                                {
+                                    "valueString": "As per protocol -- Flush each time IV catheter is [...]"
+                                }
+                            ]
+                        },
+                        {
+                            "linkID": "1.1.2",
+                            "text": "PICC Insertion Pending?",
+                            "answer": [
+                                {
+                                    "valueString": "Yes"
+                                }
+                            ]
+                        },
+                        {
+                            "linkID": "1.1.3",
+                            "text": "Move to PICC Protocol once completion complete?",
+                            "answer": [
+                                {
+                                    "valueString": "As per protocol -- Initial dressing change in 48 [...]"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "linkID": "1.2",
+                    "text": "First dose to be given in community?",
+                    "answer": [
+                        {
+                            "valueString": "Yes"
+                        }
+                    ],
+                    "item": [
+                        {
+                            "linkID": "1.2.1",
+                            "text": "Patient meets ALL eligibility criteria for first dose?",
+                            "answer": [
+                                {
+                                    "valueString": "Yes"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "linkId": "2",
+            "text": "Bloodwork Required: ",
+            "answer": [
+                {
+                    "valueString": "Lab requisition must be provided, may be drawn by community [...]"
+                }
+            ],
+            "item": [
+                {
+                    "linkId": "2.1",
+                    "text": "Requisition:",
+                    "answer": [
+                        {
+                            "valueString": "Given to patient"
+                        }
+                    ]
+                },
+                {
+                    "linkId": "2.2",
+                    "text": "For all IV antibiotic orders – weekly CBC, diff, creat, ALT, AST",
+                    "answer": [
+                        {
+                            "valueBoolean": true
+                        }
+                    ]
+                },
+                {
+                    "linkId": "2.3",
+                    "text": "For vancomycin – weekly level, CBC, diff, creat level",
+                    "answer": [
+                        {
+                            "valueBoolean": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
