@@ -75,7 +75,7 @@ function populateResponse(jsonObj) {
      */
     const parse = questionnaireResponse => {
         if (questionnaireResponse.item) {
-            parseItem(questionnaireResponse.item, 1);
+            parseItem(questionnaireResponse.item, 0);
         } else {
             console.log('Invalid Questionnaire Response.');
         }
@@ -101,14 +101,26 @@ function populateResponse(jsonObj) {
 
             if (i.item) {
                 // headers
-                if (depth < 2) {
+                if (depth < 1) {
                     if (!i.answer) {
-                        let line = renderHeader(i);
+                        let line = renderHeader(i, depth);
                         qrSection.appendChild(line);
+                        parseItem(i.item, depth);
+                    } else {
+                        parseItem(i.item, depth + 1);
                     }
                 }
 
-                parseItem(i.item, depth + 1);
+                if (depth >= 1) {
+                    // sub headers
+                    if (!i.answer) {
+                        let line = renderHeader(i, depth);
+                        qrSection.appendChild(line);
+                        parseItem(i.item, depth);
+                    } else {
+                        parseItem(i.item, depth + 1);
+                    }
+                }
             }
         });
     };
@@ -121,11 +133,11 @@ function populateResponse(jsonObj) {
         answer.forEach(e => {
             if (e.item) {
                 // conditional sub-question
-                parseItemWithSubQuestion(e.item, depth + 1);
+                parseItemWithSubQuestion(e.item, depth);
             } else {
                 // Multi-select answers
                 if (answer.length > 1 && answer.indexOf(e) != answer.length - 1) {
-                    let answerHTML = renderMultiAnswer(e);
+                    let answerHTML = renderMultiAnswer(e, depth);
                     line.appendChild(answerHTML);
 
                     // Single answers
@@ -143,18 +155,24 @@ function populateResponse(jsonObj) {
      * @param {integer} depth
      */
     const parseItemWithSubQuestion = (item, depth) => {
+        console.log('Depth: %s', depth.toString());
+        console.log('ITEM WITH SUB QUESTION');
+
         item.forEach(i => {
             if (i.answer) {
                 // sub-questions and answers
                 let line = renderQuestion(i, depth);
-                line.classList.add('indent');
+                // line.classList.add('indent');
+
+                line.style.marginLeft = (depth * 2).toString() + 'em';
                 qrSection.appendChild(line);
                 let answer = renderAnswer(i.answer[0], depth);
+                console.log('SUB ITEM ANSWER RENDERED');
                 line.appendChild(answer);
             }
 
             if (i.item) {
-                parseItem(i.item, depth + 1);
+                // parseItem(i.item, depth + 1);
             }
         });
     };
@@ -231,8 +249,10 @@ function getAnswerText({
 styling it bold with a span, and then returning the question paragraph as an object,
 verifies whether the last character of the question is a semi-colon, if not one is added */
 function renderQuestion(obj, depth) {
+    console.log('Depth: %s', depth.toString());
     let { text } = obj;
     let line = document.createElement('p');
+    line.style.marginLeft = (depth * 2).toString() + 'em';
     let question = document.createElement('span');
     question.classList.add('question');
     if (text.charAt(text.length - 1) == ':') {
@@ -254,10 +274,23 @@ function renderQuestion(obj, depth) {
  * and then returning the header as an object
  * @param {text} object.text
  */
-function renderHeader({ text }) {
-    let line = document.createElement('h1');
-    line.textContent = text;
-    return line;
+function renderHeader(obj, depth) {
+    let { text } = obj;
+
+    if (depth < 1) {
+        let line = document.createElement('h1');
+        line.textContent = text;
+        return line;
+    }
+
+    if (depth >= 1) {
+        let line = document.createElement('p');
+        line.classList.add('subheader');
+        line.style.marginLeft = (depth * 2).toString() + 'em';
+        line.style.marginRight = '0.4em';
+        line.textContent = text;
+        return line;
+    }
 }
 
 /* Displays an answer on the page by taking an object, creating a span element with a

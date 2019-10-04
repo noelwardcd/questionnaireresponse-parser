@@ -69,6 +69,16 @@ button {
     font-weight: bold;
 }
 
+.subheader {
+    font-weight: bold;
+    color: #666666 !important;
+    border-color: #e6e6e6 !important;
+    background-color: #e6e6e6 !important;
+    padding: 6px 0 6px 6px;
+    outline: 1px solid #ccc;
+    vertical-align: middle;
+}
+
 .answer {
     font-weight: normal;
 }
