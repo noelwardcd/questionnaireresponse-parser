@@ -87,17 +87,12 @@ function populateResponse(jsonObj) {
      */
     const parseItem = (item, depth) => {
         item.forEach(i => {
-            console.log(`###### ${i.text}`);
-
             // non-headers
             if (i.answer) {
                 let line = renderQuestion(i, depth);
                 qrSection.appendChild(line);
 
                 if (i.answer[0].hasOwnProperty('item')) {
-                    console.log('SUB QUESTIONS FOLLOW?');
-                    console.log(getAnswerText(i.answer[0]));
-
                     let answer = renderAnswer(i.answer[0], depth);
                     line.appendChild(answer);
                 }
@@ -110,14 +105,11 @@ function populateResponse(jsonObj) {
                     if (!i.answer) {
                         let line = renderHeader(i);
                         qrSection.appendChild(line);
-                        console.log('ITEM.ITEM depth: %s', depth.toString());
                     }
                 }
 
                 parseItem(i.item, depth + 1);
             }
-
-            console.log('TOTAL depth: %s', depth);
         });
     };
 
@@ -131,18 +123,29 @@ function populateResponse(jsonObj) {
                 // conditional sub-question
                 parseItemWithSubQuestion(e.item, depth + 1);
             } else {
-                console.log(Object.values(e).toString());
+                // Multi-select answers
+                if (answer.length > 1 && answer.indexOf(e) != answer.length - 1) {
+                    let answerHTML = renderMultiAnswer(e);
+                    line.appendChild(answerHTML);
 
-                let answer = renderAnswer(e, depth);
-                line.appendChild(answer);
+                    // Single answers
+                } else {
+                    let answerHTML = renderAnswer(e, depth);
+                    line.appendChild(answerHTML);
+                }
             }
         });
     };
 
+    /**
+     *
+     * @param {object} item
+     * @param {integer} depth
+     */
     const parseItemWithSubQuestion = (item, depth) => {
         item.forEach(i => {
             if (i.answer) {
-                //SUB QUESTIONS AND ANSWERS
+                // sub-questions and answers
                 let line = renderQuestion(i, depth);
                 line.classList.add('indent');
                 qrSection.appendChild(line);
@@ -282,17 +285,4 @@ function clearJSONResults() {
     while (qrSection.firstChild) {
         qrSection.removeChild(qrSection.firstChild);
     }
-}
-
-// Determines if the provided json object is the "resource" or nested within a "resource" object
-function getQRObj(object) {
-    let obj;
-
-    if (typeof object.resourceType !== 'undefined') {
-        obj = object;
-    } else if (typeof object.resource.resourceType !== 'undefined') {
-        obj = object.resource;
-    }
-
-    return obj;
 }
