@@ -3,6 +3,7 @@ var qrSection = document.getElementById('QuestionnaireResponse');
 var qrJSONInput = document.getElementById('jsonInput');
 var qrSubmitButton = document.getElementById('submit');
 var qrDropdownBox = document.getElementById('jsonDropdown');
+var errors = [];
 
 // Initial JSON load
 const qrSampleRequestURL = 'sample.json';
@@ -178,6 +179,7 @@ function populateResponse(jsonObj) {
     };
 
     parse(jsonObj);
+    handleErrors();
 }
 
 /* Takes an answer object, destructures it and determines which types and
@@ -199,7 +201,11 @@ function getAnswerText({
     let response = '';
 
     if (typeof valueBoolean !== 'undefined') {
-        response += valueBoolean;
+        if (valueBoolean === true || valueBoolean === false) {
+            response += valueBoolean;
+        } else {
+            errors.push('valueBoolean can only be a true or false value');
+        }
     }
 
     if (typeof valueDecimal !== 'undefined') {
@@ -317,5 +323,38 @@ function renderMultiAnswer(obj) {
 function clearJSONResults() {
     while (qrSection.firstChild) {
         qrSection.removeChild(qrSection.firstChild);
+    }
+}
+
+/**
+ * Validate the json payload for errors, if any exist then the payload is unsuccessful
+ * and will not be rendered. Any errors will be displayed instead */
+function handleErrors() {
+    if (errors.length > 0) {
+        console.log(errors);
+        clearJSONResults();
+
+        if (errors.length > 1) {
+            let line = document.createElement('h1');
+            line.textContent = errors.length.toString() + ' errors were detected:';
+            line.style.color = 'red';
+            qrSection.appendChild(line);
+        } else {
+            let line = document.createElement('h1');
+            line.textContent = errors.length.toString() + ' error was detected:';
+            line.style.color = 'red';
+            qrSection.appendChild(line);
+        }
+
+        errors.forEach(e => {
+            let line = document.createElement('p');
+            line.textContent = e;
+            line.style.color = 'red';
+            let question = document.createElement('span');
+            question.classList.add('question');
+            line.appendChild(question);
+            qrSection.appendChild(line);
+        });
+        errors = [];
     }
 }
