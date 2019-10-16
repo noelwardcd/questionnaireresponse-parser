@@ -1,0 +1,88 @@
+{
+    "resourceType": "QuestionnaireResponse",
+    "id": "7674cab2-cc1f-4f7c-969d-62a4988501e9",
+    "identifier": [
+        {
+            "system": "http://example.org/fhir/NamingSystem/questionnaire-ids",
+            "value": "414692"
+        }
+    ],
+    "basedOn": [
+        {
+            "reference": "ServiceRequest/365985"
+        }
+    ],
+    "status": "completed",
+    "authored": "2019-08-27T21:33:34Z",
+    "item": [
+        {
+            "text": "Is this a Super Hero?",
+            "answer": [
+                {
+                    "valueBoolean": true,
+                    "item": [
+                        {
+                            "text": "Superhero Name:",
+                            "answer": [
+                                {
+                                    "valueString": "The Incredible Hulk"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "Super Power:",
+                            "answer": [
+                                {
+                                    "valueString": "Hulk Smash"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "Power Level",
+                            "answer": [
+                                {
+                                    "valueInteger": 9
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "text": "Secret Identity",
+            "item": [
+                {
+                    "text": "Real Name",
+                    "answer": [
+                        {
+                            "valueString": "Bruce Banner"
+                        }
+                    ]
+                },
+                {
+                    "text": "Last Seen in public",
+                    "answer": [
+                        {
+                            "valueDateTime": "2019-08-27"
+                        }
+                    ]
+                },
+                {
+                    "text": "Co-conspirators",
+                    "answer": [
+                        {
+                            "valueString": "Tony Stark"
+                        },
+                        {
+                            "valueString": "Natasha Romanova"
+                        },
+                        {
+                            "valueString": "Clint Barton"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

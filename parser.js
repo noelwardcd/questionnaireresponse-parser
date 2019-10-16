@@ -12,6 +12,7 @@ const qrExampleHomecareRequestURL = 'samplehomecareref.json';
 const qrSampleSimpleRequestURL = 'qrsample-simple.json';
 const qrSampleMediumRequestURL = 'qrsample-medium.json';
 const qrSampleComplexRequestURL = 'qrsample-complex.json';
+const qrFHIRNorth2019ExerciseURL = 'fhirnorth2019.json';
 
 getJSONData(qrSampleRequestURL);
 
@@ -54,6 +55,9 @@ qrDropdownBox.addEventListener('change', event => {
     }
     if (result == 6) {
         getJSONData(qrSampleComplexRequestURL);
+    }
+    if (result == 7) {
+        getJSONData(qrFHIRNorth2019ExerciseURL);
     }
 });
 
@@ -210,9 +214,15 @@ function getAnswerText({
 
     if (typeof valueDecimal !== 'undefined') {
         response += valueDecimal;
+        console.log((typeof valueDecimal).toString());
     }
 
     if (typeof valueInteger !== 'undefined') {
+        if (Number.isInteger(valueInteger)) {
+            response += valueInteger;
+        } else {
+            errors.push('valueInteger must be a valid Integer value');
+        }
         response += valueInteger;
     }
 
