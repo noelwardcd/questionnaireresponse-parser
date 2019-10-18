@@ -134,7 +134,7 @@
                             "text": "Quantity:",
                             "answer": [
                                 {
-                                    "valueInteger": "12"
+                                    "valueInteger": 12
                                 }
                             ]
                         },
