@@ -167,13 +167,22 @@ function populateResponse(jsonObj) {
             if (i.answer) {
                 // sub-questions and answers
                 let line = renderQuestion(i, depth);
-                // line.classList.add('indent');
-
                 line.style.marginLeft = (depth * 2).toString() + 'em';
                 qrSection.appendChild(line);
-                let answer = renderAnswer(i.answer[0], depth);
+
+                i.answer.forEach(e => {
+                    // Multi-select answers
+                    if (i.answer.length > 1 && i.answer.indexOf(e) != i.answer.length - 1) {
+                        let answerHTML = renderMultiAnswer(e, depth);
+                        line.appendChild(answerHTML);
+
+                        // Single answers
+                    } else {
+                        let answerHTML = renderAnswer(e, depth);
+                        line.appendChild(answerHTML);
+                    }
+                });
                 console.log('SUB ITEM ANSWER RENDERED');
-                line.appendChild(answer);
             }
 
             if (i.item) {
